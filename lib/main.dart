@@ -23,7 +23,15 @@ class CongressManProfilePage extends StatefulWidget {
 }
 
 // 나중에 Body 분리
-class _CongressManProfilePageState extends State<CongressManProfilePage> {
+class _CongressManProfilePageState extends State<CongressManProfilePage> with SingleTickerProviderStateMixin {
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<CongrassMan>(context);
@@ -37,123 +45,207 @@ class _CongressManProfilePageState extends State<CongressManProfilePage> {
         children: <Widget>[
           SizedBox(height: 20.0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              CircleAvatar(
-                radius: 60,
-                backgroundImage: AssetImage('assets/image10.jpeg'),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, top: 7),
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/image10.jpeg'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      data.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      )),
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: CircleAvatar(
+                            radius: 6,
+                            backgroundColor: Colors.blue,
+                          ),
+                        ),
+                        Text(
+                          data.origName,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                          softWrap: true,
+                        ),
+                      ],
+                    )
+                  ],
+                )
               )
             ],
           ),
-          SizedBox(height: 20.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                '${data.name} (${data.hanName})',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(top: 15),
+              child: ListView(
+                children: <Widget>[
+                  TabBar(
+                    controller: _tabController,
+                    indicatorColor: Colors.black,
+                    labelColor: Colors.black,
+                    isScrollable: true,
+                    labelPadding: EdgeInsets.only(left: 25.0, right: 25.0),
+                    unselectedLabelColor: Colors.grey,
+                    tabs: <Widget>[
+                      Tab(
+                        child: Text('정보',
+                          style: TextStyle(fontSize: 19),
+                        ),
+                      ),
+                      Tab(
+                        child: Text('대표발의법률안',
+                          style: TextStyle(fontSize: 19),
+                        ),
+                      ),
+                      Tab(
+                        child: Text('댓글',
+                          style: TextStyle(fontSize: 19),
+                        ),
+                      )
+                    ],
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: double.infinity,
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20.0, top: 8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                    '프로필',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18
+                                    )
+                                ),
+                                SizedBox(height: 10,),
+                                Text(
+                                    '이름',
+                                    style: TextStyle(
+                                      fontSize: 13
+                                    )
+                                ),
+                                Text(
+                                  '${data.name}(${data.hanName}) / ${data.engName}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Text(
+                                  '생년월일',
+                                  style: TextStyle(
+                                    fontSize: 13
+                                  )
+                                ),
+                                Text(
+                                  data.birthDate,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Text(
+                                  '지역구',
+                                  style: TextStyle(
+                                      fontSize: 13
+                                  )
+                                ),
+                                Text(
+                                  data.origName,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Text(
+                                    '소속정당',
+                                    style: TextStyle(
+                                        fontSize: 13
+                                    )
+                                ),
+                                Text(
+                                  data.polyName,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Text(
+                                    '소속위원회',
+                                    style: TextStyle(
+                                        fontSize: 13
+                                    )
+                                ),
+                                Text(
+                                  data.cmitName,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Text(
+                                    '경력사항',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18
+                                    )
+                                ),
+                                SizedBox(height: 10,),
+                                Text(
+                                    '학력사항',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18
+                                    )
+                                ),
+                              ],
+                            )
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                        ),
+                        Container(
+                          width: double.infinity,
+                        )
+                      ],
+                    )
+                  )
+                ],
               ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                '${data.engName}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                '${data.birthDate}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                right: 38.0, left: 38, top:15, bottom:12
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        '${data.polyName}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                        softWrap: true,
-                      ),
-                      width: 100,
-                    )
-                  ],
-                ),
-                Container(
-                  color: Colors.black,
-                  width: 1,
-                  height: 30,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        '${data.origName}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                        softWrap: true,
-                      ),
-                      width: 100,
-                    )
-                  ],
-                ),
-                Container(
-                  color: Colors.black,
-                  width: 1,
-                  height: 30,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        '${data.cmitName}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                        softWrap: true,
-                      ),
-                      width: 100,
-                    )
-                  ],
-                ),
-              ],
-            )
           )
-
         ],
       )
     );

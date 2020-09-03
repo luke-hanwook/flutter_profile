@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,215 +36,330 @@ class _CongressManProfilePageState extends State<CongressManProfilePage> with Si
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<CongrassMan>(context);
-    print(data.name);
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
+      backgroundColor: Colors.white70,
       appBar: AppBar(
         title: Text("Congressman Profile"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 20.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 7),
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/image10.jpeg'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      data.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      )),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5.0),
-                          child: CircleAvatar(
-                            radius: 6,
-                            backgroundColor: Colors.blue,
-                          ),
-                        ),
-                        Text(
-                          data.origName,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                          softWrap: true,
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              )
-            ],
-          ),
-          Expanded(
+          SizedBox(height: 10.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 15),
-              child: ListView(
-                children: <Widget>[
-                  TabBar(
-                    controller: _tabController,
-                    indicatorColor: Colors.black,
-                    labelColor: Colors.black,
-                    isScrollable: true,
-                    labelPadding: EdgeInsets.only(left: 25.0, right: 25.0),
-                    unselectedLabelColor: Colors.grey,
-                    tabs: <Widget>[
-                      Tab(
-                        child: Text('정보',
-                          style: TextStyle(fontSize: 19),
-                        ),
-                      ),
-                      Tab(
-                        child: Text('대표발의법률안',
-                          style: TextStyle(fontSize: 19),
-                        ),
-                      ),
-                      Tab(
-                        child: Text('댓글',
-                          style: TextStyle(fontSize: 19),
-                        ),
-                      )
-                    ],
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                const Radius.circular(5.0)
+              )
+            ),
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 5,
+                  right: 5,
+                  child: Badge(
+                    badgeColor: Colors.blue,
+                    shape: BadgeShape.square,
+                    borderRadius: 10,
+                    toAnimate: false,
+                    badgeContent:
+                    Text(data.polyName, style: TextStyle(color: Colors.white, fontSize: 10)),
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: double.infinity,
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: <Widget>[
-                        Container(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20.0, top: 8),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(5.0),
+                          bottomLeft: const Radius.circular(5.0),
+                        ),
+                        child: SizedBox(
+                          child: Image.asset('assets/image10.jpeg'),
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
                               children: <Widget>[
                                 Text(
-                                    '프로필',
+                                    '${data.name}(${data.hanName})',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18
-                                    )
-                                ),
-                                SizedBox(height: 10,),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    )),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
                                 Text(
-                                    '이름',
-                                    style: TextStyle(
-                                      fontSize: 13
-                                    )
-                                ),
-                                Text(
-                                  '${data.name}(${data.hanName}) / ${data.engName}',
+                                  '${data.origName}',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
+                                      fontSize: 12,
+                                      color: Colors.grey
                                   ),
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(height: 10),
                                 Text(
-                                  '생년월일',
+                                  '${data.cmitName}',
                                   style: TextStyle(
-                                    fontSize: 13
-                                  )
-                                ),
-                                Text(
-                                  data.birthDate,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
+                                      fontSize: 12,
+                                      color: Colors.grey
                                   ),
-                                ),
-                                SizedBox(height: 10,),
-                                Text(
-                                  '지역구',
-                                  style: TextStyle(
-                                      fontSize: 13
-                                  )
-                                ),
-                                Text(
-                                  data.origName,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                Text(
-                                    '소속정당',
-                                    style: TextStyle(
-                                        fontSize: 13
-                                    )
-                                ),
-                                Text(
-                                  data.polyName,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                Text(
-                                    '소속위원회',
-                                    style: TextStyle(
-                                        fontSize: 13
-                                    )
-                                ),
-                                Text(
-                                  data.cmitName,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                Text(
-                                    '경력사항',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18
-                                    )
-                                ),
-                                SizedBox(height: 10,),
-                                Text(
-                                    '학력사항',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18
-                                    )
                                 ),
                               ],
                             )
-                          ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                        ),
-                        Container(
-                          width: double.infinity,
+                          ],
                         )
-                      ],
-                    )
+                    ),
+                  ],
+                ),
+              ],
+            )
+          )),
+          SizedBox(height: 10.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                      const Radius.circular(5.0)
+                  ),
+                  gradient:LinearGradient(
+                    colors: [Colors.black54, Colors.black38],
+                  )
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            '${data.regionPlenaryVOList.length}',
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          Text(
+                            '발의',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: 100,),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            '${data.commentList.length}',
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          Text(
+                            '댓글',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ),
+            ),
+          ),
+          SizedBox(height: 10.0),
+          //대표발의법률안 영역 -> TODO 분리
+          Container(
+            width: double.infinity,
+//            height: size.height,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child:
+              Stack(
+                children: <Widget>[
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '더보기',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black
+                              )
+                            ),
+                            WidgetSpan(
+                              child: Icon(Icons.keyboard_arrow_right, size: 13,)
+                            )
+                          ]
+                        ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        '대표발의법률안',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '진실, 화해를 위한 과거사 정리 기본법 일부 개정법률안(대안)(행정안전위원장)',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14
+                            ),
+                          ),
+                          Text(
+                              '강훈식외 20명  |  국토교통위원회',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.grey
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '진실, 화해를 위한 과거사 정리 기본법 일부 개정법률안(대안)(행정안전위원장)',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14
+                            ),
+                          ),
+                          Text(
+                            '강훈식외 20명  |  국토교통위원회',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.grey
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '진실, 화해를 위한 과거사 정리 기본법 일부 개정법률안(대안)(행정안전위원장)',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14
+                            ),
+                          ),
+                          Text(
+                            '강훈식외 20명  |  국토교통위원회',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.grey
+                            ),
+                          )
+                        ],
+                      )
+
+                    ],
                   )
                 ],
+              )
               ),
+          ),
+          SizedBox(height: 10.0),
+          //댓글영역
+          Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: RichText(
+                      text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: '추천순',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black
+                                )
+                            ),
+                            TextSpan(
+                                text: '/',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black
+                                )
+                            ),
+                            TextSpan(
+                                text: '댓글순',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black
+                                )
+                            ),
+                          ]
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        '댓글',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+
+
             ),
           )
         ],
@@ -263,6 +379,8 @@ class CongrassMan {
   String polyName;
   String origName;
   String cmitName;
+  List regionPlenaryVOList;
+  List commentList;
 
   CongrassMan(this.seq, this.name, this.profileImgUrl, this.hanName,
       this.engName, this.birthDate, this.polyName, this.origName, this.cmitName);
@@ -277,5 +395,7 @@ class CongrassMan {
     polyName = "더불어민주당";
     origName = "충남 아산시을";
     cmitName = "산업통상자원중소벤처기업위원회";
+    regionPlenaryVOList= [];
+    commentList= [];
   }
 }
